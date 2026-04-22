@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzA4MDYwNCIvPjx0ZXh0IHg9IjE2IiB5PSIyMyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtc3R5bGU9Iml0YWxpYyIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2M5YTg0YyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SzwvdGV4dD48L3N2Zz4="/>
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzA4MDYwNCIvPjx0ZXh0IHg9IjE2IiB5PSIyMyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtc3R5bGU9Iml0YWxpYyIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2M5YTg0YyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SzwvdGV4dD48L3N2Zz4="/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Speisekarte – KÓKKOS Café Hofheim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#090705;--dark:#130f0a;--dark2:#1c1610;--gold:#c9a84c;--gold2:#e8cc80;--ivory:#f0e8d5;--muted:rgba(240,232,213,.42);--line:rgba(201,168,76,.15);--nav-h:68px}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--ivory);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold)}
+
+.nav.solid{background:rgba(8,6,4,.96);backdrop-filter:blur(20px);border-color:var(--line)}
+.nav.solid{background:rgba(8,6,4,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:var(--line)}
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.2rem;z-index:1000;background:transparent;border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
+.nav__logo-img{height:80px;width:auto;display:block;filter:brightness(1.05)}
+.nav__logo{text-decoration:none;display:flex;align-items:center}
+.nav__links{display:flex;align-items:center;gap:.2rem;list-style:none}
+.nav__links a{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ivory);text-decoration:none;padding:.5rem .95rem;transition:color .25s}
+.nav__links a:hover,.nav__links a.active{color:var(--gold2)}
+.nav__pill{background:var(--gold);color:var(--black)!important;padding:.5rem 1.5rem!important;font-weight:500}
+.nav__pill:hover{background:var(--gold2)!important}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.4rem;color:var(--gold2)}
+.burger span{display:block;width:22px;height:1px;background:currentColor}
+.drawer{display:none;position:fixed;top:var(--nav-h);left:0;width:100%;background:rgba(9,7,5,.98);backdrop-filter:blur(20px);flex-direction:column;z-index:499;border-bottom:1px solid var(--line)}
+.drawer.open{display:flex}
+.drawer a{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ivory);text-decoration:none;padding:1.1rem 2.5rem;border-bottom:1px solid var(--line);transition:color .2s,padding-left .2s}
+.drawer a:hover{color:var(--gold2);padding-left:3rem}
+.drawer .d-pill{color:var(--gold)!important;font-weight:500}
+
+.btn{display:inline-block;text-decoration:none;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;padding:.95rem 2.8rem;border:1px solid;background:none;transition:.35s;font-weight:300}
+.btn-gold{border-color:var(--gold);color:var(--gold)}.btn-gold:hover{background:var(--gold);color:var(--black)}
+.btn-ghost{border-color:rgba(240,232,213,.2);color:var(--ivory)}.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+.reveal.vis{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}
+
+/* MENU HERO */
+.mhero{min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:calc(var(--nav-h) + 5rem) 2rem 5rem;text-align:center;position:relative;overflow:hidden;background:var(--black)}
+.mhero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 110%,rgba(201,168,76,.1) 0%,transparent 60%)}
+.mhero__bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',serif;font-size:clamp(10rem,22vw,22rem);font-style:italic;font-weight:300;color:var(--gold);opacity:.032;white-space:nowrap;user-select:none;letter-spacing:.1em;line-height:1;pointer-events:none}
+.mhero__sup{font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;position:relative;opacity:0;animation:fadeUp .8s .1s forwards}
+.mhero__title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,10vw,8rem);font-weight:300;color:var(--ivory);line-height:.9;position:relative;opacity:0;animation:fadeUp .8s .25s forwards}
+.mhero__title em{font-style:italic;color:var(--gold2);display:block;font-size:.55em;letter-spacing:.16em;margin-top:.4em}
+.mhero__note{margin-top:2rem;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ivory);position:relative;opacity:0;animation:fadeUp .8s .45s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* CAT NAV */
+.cat-nav{position:sticky;top:var(--nav-h);z-index:200;background:rgba(9,7,5,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.cat-nav::-webkit-scrollbar{display:none}
+.cat-nav__inner{display:flex;min-width:max-content;width:100%;justify-content:flex-start;padding:0 1rem}@media(min-width:700px){.cat-nav__inner{justify-content:center;padding:0 2rem}}
+.cat-btn{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ivory);text-decoration:none;padding:1.1rem 1.2rem;border-bottom:2px solid transparent;transition:color .25s,border-color .25s;white-space:nowrap;display:block}
+.cat-btn:hover,.cat-btn.active{color:var(--gold2);border-color:var(--gold)}
+
+/* MAIN */
+main{max-width:800px;margin:0 auto;padding:3rem 1.2rem 5rem}@media(min-width:640px){main{padding:4rem 2rem 7rem}}
+
+/* CHAPTER */
+.chapter{margin-bottom:7rem}
+.ch-hd{display:flex;align-items:center;gap:1.2rem;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ch-icon{font-size:3.8rem;flex-shrink:0;opacity:.5;line-height:1}
+.ch-lbl{font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.ch-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:var(--ivory)}
+.ch-title em{font-style:italic;color:var(--gold2)}
+
+/* SUBCAT */
+.sub{margin-bottom:3rem}
+.sub-lbl{font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.65;padding-bottom:.8rem;margin-bottom:0;border-bottom:1px solid rgba(201,168,76,.1)}
+
+/* ITEM */
+.item{display:flex;align-items:flex-start;gap:1.5rem;padding:1.6rem 0;border-bottom:1px solid rgba(201,168,76,.07);transition:background .2s,padding .15s}
+.item:last-child{border:none}
+.item:hover{background:rgba(201,168,76,.025);margin:0 -1rem;padding-left:1rem;padding-right:1rem;border-radius:2px}
+.item__body{flex:1}
+.item__name{font-size:.86rem;color:#fff;line-height:1.4;letter-spacing:.025em}
+.item__desc{font-size:.7rem;color:var(--ivory);margin-top:.35rem;line-height:1.65}
+.item__price{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);flex-shrink:0;padding-top:.1rem}
+
+/* EXTRAS */
+.extras{border:1px solid var(--line);padding:2.5rem;margin-top:2rem;background:rgba(201,168,76,.018)}
+.extras__lbl{font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem}
+.extras__grid{display:grid;grid-template-columns:1fr;gap:.4rem}@media(min-width:480px){.extras__grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem 2rem}}
+.extra{display:flex;justify-content:space-between;align-items:baseline;padding:.5rem 0;border-bottom:1px solid rgba(201,168,76,.07);font-size:.76rem;color:var(--ivory);gap:1rem}
+.extra:last-child{border:none}
+.xp{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:.95rem;white-space:nowrap}
+
+/* NOTE */
+.note{border-left:1px solid var(--gold);padding:1rem 1.8rem;margin-top:1.5rem;font-size:.76rem;color:var(--ivory);line-height:1.8}
+.note strong{color:var(--ivory);font-weight:400}
+
+/* ALLERGEN */
+.allergen{border:1px solid var(--line);padding:2.5rem;text-align:center;margin-top:5rem}
+.allergen strong{display:block;font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:.8rem}
+.allergen p{font-size:.78rem;color:var(--ivory);line-height:1.8}
+
+/* SHOP CTA */
+.shop-cta{text-align:center;margin-top:4rem;padding:3rem 1.5rem;border:1px solid var(--line);position:relative;overflow:hidden}
+.shop-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 100%,rgba(201,168,76,.055) 0%,transparent 70%)}
+.shop-cta p{font-family:'Cormorant Garamond',serif;font-size:2rem;font-style:italic;color:var(--ivory);margin-bottom:.8rem;position:relative}
+.shop-cta span{font-size:.73rem;color:var(--ivory);display:block;margin-bottom:2.5rem;line-height:1.8;position:relative}
+
+/* FOOTER */
+.footer{background:var(--black);border-top:1px solid var(--line);padding:5rem 2rem 2.5rem}
+.footer__inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr 1fr;gap:4rem;align-items:start;padding-bottom:3rem;border-bottom:1px solid var(--line)}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;letter-spacing:.28em;color:var(--gold2);text-decoration:none;display:block;margin-bottom:1rem}
+.f-info{font-size:.7rem;color:var(--ivory);line-height:1.9}.f-info a{color:var(--gold);text-decoration:none}
+.f-group h4{font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.f-group ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.f-group a{font-size:.7rem;letter-spacing:.1em;color:var(--ivory);text-decoration:none;transition:color .2s}.f-group a:hover{color:var(--gold2)}
+.f-links{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.footer__bottom{max-width:1100px;margin:2rem auto 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer__bottom p,.footer__bottom a{font-size:.57rem;letter-spacing:.1em;color:rgba(240,232,213,.18);text-decoration:none;transition:color .2s}
+.footer__bottom a:hover{color:var(--gold)}.fbl{display:flex;gap:1.5rem}
+
+@media(max-width:900px){
+  .nav{padding:0 1.6rem}.nav__links{display:none}.burger{display:flex}
+  .cat-nav__inner{justify-content:flex-start}
+  .cat-btn{padding:.9rem .85rem;font-size:.5rem}
+  .ch-hd{flex-direction:column;align-items:flex-start;gap:.8rem}
+  .extras__grid{grid-template-columns:1fr}
+  .footer__inner{grid-template-columns:1fr;gap:2.5rem}.f-links{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav__logo"><img src="data:image/png;base64,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" alt="KÓKKOS" class="nav__logo-img"/></a>
+  <ul class="nav__links">
+    <li><a href="index.html">Start</a></li>
+    <li><a href="menu.html" class="active">Speisekarte</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="index.html#visit">Besuchen</a></li>
+    <li><a href="shop.html" class="nav__pill">Bestellen →</a></li>
+  </ul>
+  <button class="burger" id="burger"><span></span><span></span><span></span></button>
+</nav>
+<nav class="drawer" id="drawer">
+  <a href="index.html">Start</a>
+  <a href="menu.html">Speisekarte</a>
+  <a href="shop.html">Online-Shop</a>
+  <a href="index.html#visit">Öffnungszeiten &amp; Anfahrt</a>
+  <a href="shop.html" class="d-pill">Online bestellen →</a>
+</nav>
+
+<div class="mhero">
+  <div class="mhero__bg">Speisekarte</div>
+  <p class="mhero__sup">Café Hofheim am Taunus</p>
+  <h1 class="mhero__title">The Menu<em>Speisekarte</em></h1>
+  <p class="mhero__note">Kellereiplatz 2 &nbsp;·&nbsp; Täglich 9 – 19 Uhr</p>
+</div>
+
+<div class="cat-nav" id="cat-nav">
+  <div class="cat-nav__inner">
+    <a href="#coffee"     class="cat-btn">Kaffee &amp; Heiß</a>
+    <a href="#iced"       class="cat-btn">Iced Drinks</a>
+    <a href="#softdrinks" class="cat-btn">Soft Drinks</a>
+    <a href="#beer"       class="cat-btn">Bier</a>
+    <a href="#spirits"    class="cat-btn">Spirits</a>
+    <a href="#aperitifs"  class="cat-btn">Aperitifs</a>
+    <a href="#wine"       class="cat-btn">Wein</a>
+    <a href="#food"       class="cat-btn">Bowls</a>
+    <a href="#meze"       class="cat-btn">Meze</a>
+  </div>
+</div>
+
+<main>
+
+<!-- COFFEE -->
+<div id="coffee" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">☕</div>
+    <div><div class="ch-lbl">Coffee &amp; More</div><h2 class="ch-title">Kaffee &amp; <em>Heiße Getränke</em></h2></div>
+  </div>
+  <div class="sub"><div class="sub-lbl">Espresso &amp; Schwarz</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Café Americano</div></div><div class="item__price">2,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Café Crema</div></div><div class="item__price">2,70 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Cortado</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Espresso</div></div><div class="item__price">2,50 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Espresso Doppio</div></div><div class="item__price">3,50 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Espresso Macchiato</div></div><div class="item__price">2,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Espresso Macchiato Doppio</div></div><div class="item__price">3,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Griechischer Mokka</div></div><div class="item__price">2,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Griechischer Mokka Doppio</div></div><div class="item__price">3,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Nescafé</div></div><div class="item__price">3,80 €</div></div>
+  <div class="sub" style="margin-top:2.5rem"><div class="sub-lbl">Milch &amp; Latte</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Cappuccino</div></div><div class="item__price">3,60 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Flat White</div></div><div class="item__price">4,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Latte Macchiato</div></div><div class="item__price">4,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Milchkaffee</div></div><div class="item__price">3,80 €</div></div>
+  <div class="sub" style="margin-top:2.5rem"><div class="sub-lbl">Spezial-Latte</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Chai Latte</div></div><div class="item__price">5,30 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Matcha Latte</div><div class="item__desc">Extras &amp; Aufpreise siehe unten</div></div><div class="item__price">6,20 €</div></div>
+  <div class="sub" style="margin-top:2.5rem"><div class="sub-lbl">Tee &amp; Schokolade</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Frischer Minztee</div></div><div class="item__price">4,40 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Frischer Minztee + Ingwer / Zitrone</div><div class="item__desc">Aufpreis</div></div><div class="item__price">+1,50 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Frischer Orangen-Ingwertee</div></div><div class="item__price">6,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Heiße Schokolade</div></div><div class="item__price">4,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Ronnefeldt Tee</div><div class="item__desc">Morgentau · Earl Grey · Ginger &amp; Lemon · Kamille · Fruit Power</div></div><div class="item__price">3,90 €</div></div>
+  <div class="extras">
+    <div class="extras__lbl">Extras &amp; Aufpreise</div>
+    <div class="extras__grid">
+      <div class="extra"><span>Entkoffeiniert</span><span class="xp">+1,00 €</span></div>
+      <div class="extra"><span>Erdbeer- / Mangopüree</span><span class="xp">+1,00 €</span></div>
+      <div class="extra"><span>Espresso Shot</span><span class="xp">+1,50 €</span></div>
+      <div class="extra"><span>Hafer- / Mandelmilch</span><span class="xp">+1,00 €</span></div>
+      <div class="extra"><span>Haselnuss- / Karamell- / Vanillesirup</span><span class="xp">+1,00 €</span></div>
+      <div class="extra"><span>Sahne</span><span class="xp">+1,00 €</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ICED -->
+<div id="iced" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🧊</div>
+    <div><div class="ch-lbl">Coffee &amp; More</div><h2 class="ch-title">Iced <em>Drinks</em></h2></div>
+  </div>
+  <div class="item"><div class="item__body"><div class="item__name">Affogato</div></div><div class="item__price">5,50 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Frappé</div></div><div class="item__price">3,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Freddo Cappuccino</div></div><div class="item__price">4,40 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Freddo Espresso</div></div><div class="item__price">4,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Iced Americano</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Iced Chai Latte</div></div><div class="item__price">5,60 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Iced Latte</div></div><div class="item__price">5,30 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Iced Matcha Latte</div><div class="item__desc">Extras wie oben</div></div><div class="item__price">6,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Kalte Schokolade</div></div><div class="item__price">4,60 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Matcha Affogato</div></div><div class="item__price">5,90 €</div></div>
+</div>
+
+<!-- SOFT DRINKS -->
+<div id="softdrinks" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🍋</div>
+    <div><div class="ch-lbl">Cold Drinks</div><h2 class="ch-title">Soft <em>Drinks</em></h2></div>
+  </div>
+  <div class="item"><div class="item__body"><div class="item__name">Apfelsaft</div></div><div class="item__price">3,00 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Coca-Cola 0,2 l</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Coca-Cola Zero 0,2 l</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Fanta 0,2 l</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Hausgemachte Limonade</div><div class="item__desc">Mit Minze und Zitrone</div></div><div class="item__price">5,70 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Masticha</div><div class="item__desc">Griechische Limonade mit Ingwer</div></div><div class="item__price">5,50 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Orangensaft</div></div><div class="item__price">5,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Sprite 0,2 l</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Tonic Water</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Wasser Still 0,25 l</div></div><div class="item__price">3,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Wasser Still 0,75 l</div></div><div class="item__price">7,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Wasser Sprudel 0,25 l</div></div><div class="item__price">3,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Wasser Sprudel 0,75 l</div></div><div class="item__price">7,10 €</div></div>
+</div>
+
+<!-- BEER -->
+<div id="beer" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🍺</div>
+    <div><div class="ch-lbl">Cold Drinks</div><h2 class="ch-title"><em>Bier</em></h2></div>
+  </div>
+  <div class="item"><div class="item__body"><div class="item__name">Benediktiner Hefeweizen 0,5 l</div></div><div class="item__price">5,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Benediktiner Hefeweizen alkoholfrei 0,5 l</div></div><div class="item__price">5,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Mythos 0,33 l</div><div class="item__desc">Griechisches Bier</div></div><div class="item__price">3,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Radler 0,5 l</div></div><div class="item__price">5,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Tegernseer Hell 0,33 l</div></div><div class="item__price">3,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Welde Natur Radler alkoholfrei 0,33 l</div></div><div class="item__price">3,80 €</div></div>
+  <div class="sub" style="margin-top:2.5rem"><div class="sub-lbl">Hessischer Apfelwein</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Apfelwein 0,25 l</div></div><div class="item__price">3,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Apfelwein 0,5 l</div></div><div class="item__price">5,10 €</div></div>
+</div>
+
+<!-- SPIRITS -->
+<div id="spirits" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🥃</div>
+    <div><div class="ch-lbl">Cold Drinks</div><h2 class="ch-title">Spirits &amp; <em>Longdrinks</em></h2></div>
+  </div>
+  <div class="item"><div class="item__body"><div class="item__name">Absolut Vodka 4 cl</div></div><div class="item__price">6,00 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Absolut Vodka O</div></div><div class="item__price">9,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Hendricks Gin 4 cl</div></div><div class="item__price">7,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Hendricks Gin Tonic</div></div><div class="item__price">10,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Jack Daniels 4 cl</div></div><div class="item__price">6,50 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Jack Daniels Cola</div></div><div class="item__price">9,70 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Ouzo Plomari 2 cl</div></div><div class="item__price">3,20 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Ramazzotti 2 cl</div></div><div class="item__price">3,20 €</div></div>
+</div>
+
+<!-- APERITIFS -->
+<div id="aperitifs" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🥂</div>
+    <div><div class="ch-lbl">Cold Drinks</div><h2 class="ch-title">Apéritifs &amp; <em>Bubbles</em></h2></div>
+  </div>
+  <div class="item"><div class="item__body"><div class="item__name">Aperol Spritz</div></div><div class="item__price">8,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Campari Orange</div></div><div class="item__price">8,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Campari Soda</div></div><div class="item__price">8,30 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Hugo</div></div><div class="item__price">8,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Hugo alkoholfrei</div></div><div class="item__price">8,60 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Lillet Wild Berry</div></div><div class="item__price">8,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Limoncello Spritz</div></div><div class="item__price">8,30 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Limoncello Tonic</div></div><div class="item__price">8,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Prosecco 0,1 l</div></div><div class="item__price">4,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Prosecco mit Orangensaft 0,1 l</div></div><div class="item__price">5,40 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Sarti Spritz</div></div><div class="item__price">8,90 €</div></div>
+</div>
+
+<!-- WINE -->
+<div id="wine" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🍷</div>
+    <div><div class="ch-lbl">Fine Wines</div><h2 class="ch-title">Unsere <em>Weine</em></h2></div>
+  </div>
+  <div class="sub"><div class="sub-lbl">Weißwein</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Alpha Malagouzia 0,2 l</div><div class="item__desc">Griechischer Weißwein, trocken</div></div><div class="item__price">7,80 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Grauburgunder 0,2 l</div><div class="item__desc">Weingut Baum-Storzum, Pfalz, trocken</div></div><div class="item__price">7,60 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Retsina Malamatina 0,25 l</div><div class="item__desc">Griechischer traditioneller Harzwein</div></div><div class="item__price">5,00 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Riesling 0,2 l</div><div class="item__desc">Weingut Baum-Storzum, Pfalz, trocken</div></div><div class="item__price">6,80 €</div></div>
+  <div class="sub" style="margin-top:2.5rem"><div class="sub-lbl">Roséwein</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Rosé 0,2 l</div><div class="item__desc">Weingut Baum-Storzum, Pfalz, trocken</div></div><div class="item__price">7,80 €</div></div>
+  <div class="sub" style="margin-top:2.5rem"><div class="sub-lbl">Rotwein</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Cabernet Sauvignon / Merlot 0,2 l</div><div class="item__desc">trocken</div></div><div class="item__price">7,80 €</div></div>
+</div>
+
+<!-- FOOD -->
+<div id="food" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🥣</div>
+    <div><div class="ch-lbl">Food</div><h2 class="ch-title">Fresh <em>Bowls</em></h2></div>
+  </div>
+  <div class="item"><div class="item__body"><div class="item__name">Açaí Bowl</div><div class="item__desc">Vegan, laktosefrei · Mus aus pürierter Açaí-Beere mit saisonalem Obst, Kokosraspeln und selbstgemachtem Granola-Müsli</div></div><div class="item__price">13,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Kalimera Bowl</div><div class="item__desc">Griechischer Sahnejoghurt mit Honig und Nüssen</div></div><div class="item__price">6,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">+ Selbstgemachtes Granola-Müsli</div></div><div class="item__price">2,70 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">+ Saisonales Obst</div></div><div class="item__price">4,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Kókkos Bowl</div><div class="item__desc">Mus aus püriertem Joghurt, saisonalem Obst und selbstgemachtem Granola-Müsli</div></div><div class="item__price">13,30 €</div></div>
+  <div class="note">Auswahl diverser Kuchen, Törtchen und Speisen nach <strong>Tagesangebot an der Theke!</strong></div>
+</div>
+
+<!-- MEZE -->
+<div id="meze" class="chapter reveal">
+  <div class="ch-hd">
+    <div class="ch-icon">🫒</div>
+    <div><div class="ch-lbl">Food</div><h2 class="ch-title">Meze <em>Selection</em></h2></div>
+  </div>
+  <p style="font-size:.78rem;color:var(--ivory);margin-bottom:2rem;line-height:1.8">Geröstetes Fladenbrot mit verschiedenen Vorspeisen nach Wahl</p>
+  <div class="item"><div class="item__body"><div class="item__name">Dicke Bohnen mit Feta überbacken</div></div><div class="item__price">4,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Dolmadakia</div><div class="item__desc">Gefüllte Weinblätter</div></div><div class="item__price">4,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Feta warm</div></div><div class="item__price">5,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Fladenbrot extra</div></div><div class="item__price">2,90 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Marinierte Oliven</div></div><div class="item__price">4,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Oliventapenade</div></div><div class="item__price">4,30 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Selbstgemachter Hummus</div></div><div class="item__price">4,30 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Tirosalata</div><div class="item__desc">Pürierter Schafskäse 🌶</div></div><div class="item__price">4,10 €</div></div>
+  <div class="item"><div class="item__body"><div class="item__name">Tzatziki</div></div><div class="item__price">4,10 €</div></div>
+</div>
+
+<div class="allergen">
+  <strong>Allergene &amp; Unverträglichkeiten</strong>
+  <p>Bei Fragen zu Allergenen und Zutaten, die eine Unverträglichkeit auslösen, wenden Sie sich bitte an unser Servicepersonal.</p>
+</div>
+
+<div class="shop-cta">
+  <p>Unsere Bohnen mit nach Hause?</p>
+  <span>Kókkos Blanc Blend &amp; Classic Blend – frisch geröstet, direkt bestellt.</span>
+  <a href="shop.html" class="btn btn-gold">Zum Online-Shop →</a>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div><a href="index.html" class="f-logo"><img src="data:image/png;base64,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" alt="KÓKKOS" style="height:72px;width:auto;opacity:.9"/></a><p class="f-info">Kellereiplatz 2<br/>65719 Hofheim am Taunus<br/><a href="mailto:info@kokkos.de">info@kokkos.de</a></p></div>
+    <div class="f-links">
+      <div class="f-group"><h4>Navigation</h4><ul><li><a href="index.html">Start</a></li><li><a href="menu.html">Speisekarte</a></li><li><a href="shop.html">Online-Shop</a></li></ul></div>
+      <div class="f-group"><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="agb.html">AGB</a></li><li><a href="widerruf.html">Widerrufsbelehrung</a></li><li><a href="cookies.html">Cookie-Hinweise</a></li></ul></div>
+    </div>
+    <div class="f-group"><h4>Kontakt</h4><ul><li><a href="https://www.instagram.com/kokkos.hofheim/" target="_blank">Instagram</a></li><li><a href="mailto:info@kokkos.de">E-Mail</a></li><li><a href="https://maps.google.com/?q=Kellereiplatz+2+65719+Hofheim" target="_blank">Anfahrt</a></li></ul></div>
+  </div>
+  <div class="footer__bottom"><p>© 2025 KÓKKOS Café &amp; Meze · Hofheim am Taunus</p><div class="fbl"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="cookies.html">Cookies</a></div></div>
+</footer>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');if(nav){var u=function(){nav.classList.toggle('solid',window.scrollY>50);};window.addEventListener('scroll',u,{passive:true});u();}
+  var b=document.getElementById('burger'),d=document.getElementById('drawer');
+  b.addEventListener('click',function(){d.classList.toggle('open')});
+  d.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){d.classList.remove('open')})});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.07});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  // Cat nav active
+  var chapters=document.querySelectorAll('.chapter');
+  var btns=document.querySelectorAll('.cat-btn');
+  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){btns.forEach(function(b){b.classList.remove('active')});var a=document.querySelector('.cat-btn[href="#'+e.target.id+'"]');if(a){a.classList.add('active');a.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})}}})},{rootMargin:'-35% 0px -60% 0px'}).observe?chapters.forEach(function(c){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){btns.forEach(function(b){b.classList.remove('active')});var a=document.querySelector('.cat-btn[href="#'+e.target.id+'"]');if(a){a.classList.add('active');a.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})}}})},{rootMargin:'-35% 0px -60% 0px'}).observe(c)}):null;
+})();
+</script>
+</body>
+</html>
